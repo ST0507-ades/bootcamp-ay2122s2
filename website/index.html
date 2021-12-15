@@ -1,0 +1,65 @@
+<html>
+    <head></head>
+    <body>
+        <h1>Hello</h1>
+        <input type="text" id="name" />
+        <button id="say-hi-button">Say Hi</button>
+        <div>
+            <input type="number" id="num_1" />
+            <input type="number" id="num_2" />
+        </div>
+        <button id="clear">clear</button>
+        <button id="add-button">add</button>
+        <button id="minus-button">minus</button>
+        <button id="multiply-button">multiply</button>
+        <button id="divide-button">divide</button>
+    </body>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        const sayHiButton = document.getElementById('say-hi-button');
+        sayHiButton.addEventListener('click', function (e) {
+            const name = document.getElementById('name').value;
+            alert('hello ' + name);
+        });
+        const addButton = document.getElementById('add-button');
+        addButton.addEventListener('click', function (e) {
+            const num1 = +document.getElementById('num_1').value;
+            const num2 = +document.getElementById('num_2').value;
+
+            axios.post(`http://localhost:8000/sum?num1=${num1}&num2=${num2}`).then(function (response) {
+                alert(response.data.sum);
+            });
+        });
+        const clearButton = document.getElementById('clear');
+        clearButton.addEventListener('click', function (e) {
+            document.getElementById('num_1').value = '';
+            document.getElementById('num_2').value = '';
+        });
+        const minusButton = document.getElementById('minus-button');
+        minusButton.addEventListener('click', function (e) {
+            const num1 = document.getElementById('num_1').value;
+            const num2 = document.getElementById('num_2').value;
+            axios.get(`http://localhost:8000/minus?num1=${num1}&num2=${num2}`).then(function (response) {
+                alert(response.data.minus);
+            });
+        });
+        const multiplyButton = document.getElementById('multiply-button');
+        multiplyButton.addEventListener('click', function (e) {
+            const num1 = document.getElementById('num_1').value;
+            const num2 = document.getElementById('num_2').value;
+            axios.put(`http://localhost:8000/multiply/num1/${num1}/num2/${num2}`).then(function (response) {
+                alert(response.data.multiply);
+            });
+        });
+        const divideButton = document.getElementById('divide-button');
+        divideButton.addEventListener('click', function (e) {
+            const num1 = document.getElementById('num_1').value;
+            const num2 = document.getElementById('num_2').value;
+            axios
+                .delete(`http://localhost:8000/divide`, { data: { num1: num1, num2: num2 } })
+                .then(function (response) {
+                    alert(response.data.divide);
+                });
+        });
+    </script>
+</html>
